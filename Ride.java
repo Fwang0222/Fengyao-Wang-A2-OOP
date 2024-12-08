@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 interface RideInterface {
     void addVisitorToQueue(Visitor visitor);
@@ -18,7 +18,7 @@ abstract class Ride implements RideInterface {
     private int rideId;
     private Employee rideOperator;
     private String suitablePopulation;
-    private List<Visitor> queue;
+    private Queue<Visitor> queue;
     private List<Visitor> rideHistory;
 
     public Ride() {
@@ -41,19 +41,32 @@ abstract class Ride implements RideInterface {
 
     @Override
     public void addVisitorToQueue(Visitor visitor) {
-        queue.add(visitor);
+        if (visitor != null) {
+            queue.add(visitor);
+            System.out.println(visitor.getName() + " has been added to the queue.");
+        } else {
+            System.out.println("Failed to add.");
+        }
     }
 
     @Override
     public void removeVisitorFromQueue(Visitor visitor) {
-        queue.remove(visitor);
+        if (queue.remove(visitor)) {
+            System.out.println(visitor.getName() + " has been removed from the queue.");
+        } else {
+            System.out.println("Failed to remove.");
+        }
     }
 
     @Override
     public void printQueue() {
-        System.out.println("Visitors in the queue for " + rideName + ":");
-        for (Visitor v : queue) {
-            System.out.println(v.getName());
+        if (queue.isEmpty()) {
+            System.out.println("Queue is empty.");
+        } else {
+            System.out.println("Visitors in the queue for " + rideName + ":");
+            for (Visitor visitor : queue) {
+                System.out.println("Name: " + visitor.getName());
+            }
         }
     }
 

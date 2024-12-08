@@ -1,35 +1,34 @@
 public class AssignmentTwo {
     public static void main(String[] args) {
-        Employee operator1 = new Employee("Jack", 25, "Male", "1234567", 101, "Operation department", "None");
-        Visitor visitor1 = new Visitor("Amy", 19, "Female", "1234568","175cm", "123@ab.com", true);
-        Visitor visitor2 = new Visitor("James", 28, "Male", "12345679", "179cm", "124@ab.com", false);
+        AssignmentTwo assignmentTwo = new AssignmentTwo();
+        assignmentTwo.partThree();
+    }
 
+    public void partThree() {
         class RollerCoaster extends Ride {
             public RollerCoaster(String rideName, int rideId, Employee rideOperator, String suitablePopulation) {
                 super(rideName, rideId, rideOperator, suitablePopulation);
             }
         }
 
-        RollerCoaster rollerCoaster = new RollerCoaster("Roller Coaster", 1, operator1, "up to 170cm");
+        Employee e1 = new Employee("Jack", 25, "Male", "1234567", 101, "Operation department", "None");
+        RollerCoaster rollerCoaster = new RollerCoaster("Roller Coaster", 1, e1, "Higher than 155cm, lower than 210cm");
 
-        rollerCoaster.addVisitorToQueue(visitor1);
-        rollerCoaster.addVisitorToQueue(visitor2);
+        Visitor v1 = new Visitor("Amy", 19, "Female", "1234561","175cm", "121@ab.com", true);
+        Visitor v2 = new Visitor("James", 28, "Male", "1234562", "179cm", "122@ab.com", false);
+        Visitor v3 = new Visitor("Linda", 19, "Female", "1234563", "167cm", "123@ab.com", false);
+        Visitor v4 = new Visitor("Faye", 20, "Male", "1234564", "186cm", "124@ab.com", true);
+        Visitor v5 = new Visitor("Karen", 25, "Male", "1234565", "183cm", "125@ab.com", false);
+
+        rollerCoaster.addVisitorToQueue(v1);
+        rollerCoaster.addVisitorToQueue(v2);
+        rollerCoaster.addVisitorToQueue(v3);
+        rollerCoaster.addVisitorToQueue(v4);
+        rollerCoaster.addVisitorToQueue(v5);
+
+        rollerCoaster.removeVisitorFromQueue(v3);
 
         rollerCoaster.printQueue();
-
-        rollerCoaster.runOneCycle();
-
-        rollerCoaster.addVisitorToHistory(visitor1);
-        rollerCoaster.addVisitorToHistory(visitor2);
-
-        rollerCoaster.printRideHistory();
-
-        System.out.println("Is Amy in history? " + rollerCoaster.checkVisitorFromHistory(visitor1));
-
-    }
-
-    public void partThree() {
-
     }
 
     public void partFourA() {
