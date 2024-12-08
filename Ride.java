@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Iterator;
+import java.util.Comparator;
 
 interface RideInterface {
     void addVisitorToQueue(Visitor visitor);
@@ -43,7 +45,7 @@ abstract class Ride implements RideInterface {
     public void addVisitorToQueue(Visitor visitor) {
         if (visitor != null) {
             queue.add(visitor);
-            System.out.println(visitor.getName() + " has been added to the queue.");
+            System.out.println(visitor.getName() + " has been added to " + rideName + " queue.");
         } else {
             System.out.println("Failed to add.");
         }
@@ -52,7 +54,7 @@ abstract class Ride implements RideInterface {
     @Override
     public void removeVisitorFromQueue(Visitor visitor) {
         if (queue.remove(visitor)) {
-            System.out.println(visitor.getName() + " has been removed from the queue.");
+            System.out.println(visitor.getName() + " has been removed from " + rideName + " queue.");
         } else {
             System.out.println("Failed to remove.");
         }
@@ -77,7 +79,12 @@ abstract class Ride implements RideInterface {
 
     @Override
     public void addVisitorToHistory(Visitor visitor) {
-        rideHistory.add(visitor);
+        if (visitor != null) {
+            rideHistory.add(visitor);
+            System.out.println(visitor.getName() + " has been added to " +  rideName + " history.");
+        } else {
+            System.out.println("Failed to add.");
+        }
     }
 
     @Override
@@ -92,10 +99,21 @@ abstract class Ride implements RideInterface {
 
     @Override
     public void printRideHistory() {
-        System.out.println("Ride history for " + rideName + ":");
-        for (Visitor v : rideHistory) {
-            System.out.println(v.getName());
+        if (rideHistory.isEmpty()) {
+            System.out.println("Ride history is empty.");
+        } else {
+            System.out.println("Visitors in the ride history for " + rideName + ":");
+            Iterator<Visitor> iterator = rideHistory.iterator();
+            while (iterator.hasNext()) {
+                Visitor v = iterator.next();
+                System.out.println("Age: " + v.getAge() + " Name: " + v.getName());
+            }
         }
+    }
+
+    public void sortRideHistory(Comparator<Visitor> comparator) {
+        rideHistory.sort(comparator);
+        System.out.println(rideName + " history has been sorted.");
     }
 
     public String getRideName() {
