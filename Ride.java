@@ -22,6 +22,8 @@ abstract class Ride implements RideInterface {
     private String suitablePopulation;
     private Queue<Visitor> queue;
     private List<Visitor> rideHistory;
+    private int maxRider;
+    private int numOfCycles;
 
     public Ride() {
         this.rideName = "Unknown";
@@ -30,15 +32,19 @@ abstract class Ride implements RideInterface {
         this.suitablePopulation = "Unknown";
         this.queue = new LinkedList<>();
         this.rideHistory = new LinkedList<>();
+        this.maxRider = 1;
+        this.numOfCycles = 0;
     }
 
-    public Ride(String rideName, int rideId, Employee rideOperator, String suitablePopulation) {
+    public Ride(String rideName, int rideId, Employee rideOperator, String suitablePopulation, int maxRider, int numOfCycles) {
         this.rideName = rideName;
         this.rideId = rideId;
         this.rideOperator = rideOperator;
         this.suitablePopulation = suitablePopulation;
         this.queue = new LinkedList<>();
         this.rideHistory = new LinkedList<>();
+        this.maxRider = maxRider;
+        this.numOfCycles = 0;
     }
 
     @Override
@@ -74,7 +80,26 @@ abstract class Ride implements RideInterface {
 
     @Override
     public void runOneCycle() {
-        System.out.println(rideName + " is running one cycle.");
+        if (rideHistory == null) {
+            System.out.println("Can not run the ride, because there is no ride operator.");
+            return;
+        }
+
+        if (queue.isEmpty()) {
+            System.out.println("Can not run the ride, because queue is empty.");
+            return;
+        }
+
+        int riders = Math.min(queue.size(), maxRider);
+        System.out.println("Running one cycle of " + rideName + " with " + riders + " visitors.");
+
+        for (int i = 0; i < riders; i++) {
+            Visitor visitor = queue.poll();
+            addVisitorToHistory(visitor);
+        }
+
+        numOfCycles++;
+        System.out.println(rideName + " has been run for " + numOfCycles + " cycle(s).");
     }
 
     @Override
@@ -102,8 +127,8 @@ abstract class Ride implements RideInterface {
         if (rideHistory.isEmpty()) {
             System.out.println("Ride history is empty.");
         } else {
-            System.out.println("Visitors in the ride history for " + rideName + ":");
             Iterator<Visitor> iterator = rideHistory.iterator();
+            System.out.println("Visitors in the ride history for " + rideName + ":");
             while (iterator.hasNext()) {
                 Visitor v = iterator.next();
                 System.out.println("Age: " + v.getAge() + " Name: " + v.getName());
@@ -146,5 +171,21 @@ abstract class Ride implements RideInterface {
 
     public void setSuitablePopulation(String suitablePopulation) {
         this.suitablePopulation = suitablePopulation;
+    }
+
+    public int getMaxRider() {
+        return maxRider;
+    }
+
+    public void setMaxRider(int maxRider) {
+        this.maxRider = maxRider;
+    }
+
+    public int getNumOfCycles() {
+        return numOfCycles;
+    }
+
+    public void setNumOfCycles(int numOfCycles) {
+        this.numOfCycles = numOfCycles;
     }
 }
