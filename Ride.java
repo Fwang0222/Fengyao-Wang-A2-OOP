@@ -3,6 +3,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Iterator;
 import java.util.Comparator;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 interface RideInterface {
     void addVisitorToQueue(Visitor visitor);
@@ -139,6 +144,70 @@ abstract class Ride implements RideInterface {
     public void sortRideHistory(Comparator<Visitor> comparator) {
         rideHistory.sort(comparator);
         System.out.println(rideName + " history has been sorted.");
+    }
+
+    public void exportRideHistory(String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Visitor visitor : rideHistory) {
+                String visitorData = visitor.getName() + "," + visitor.getAge() + "," + visitor.getGender() + ","
+                        + visitor.getTelephone() + "," + visitor.getHeight() + "," + visitor.getEmail() + "," + visitor.getHasFastPass();
+                writer.write(visitorData);
+                writer.newLine();
+            }
+            System.out.println("Visitor history exported to " + filename);
+        } catch (IOException e) {
+            System.out.println("Error exporting ride history: " + e.getMessage());
+        }
+    }
+
+    public void importRideHistory(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            int lineNumber = 1;
+
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+
+                if (data.length == 7) {
+                    try {
+                        String name = data[0].trim();
+                        int age = Integer.parseInt(data[1].trim());
+                        String gender = data[2].trim();
+                        String telephone = data[3].trim();
+                        String height = data[4].trim();
+                        String email = data[5].trim();
+                        boolean hasFastPass = Boolean.parseBoolean(data[6].trim());
+
+                        Visitor visitor = new Visitor(name, age, gender, telephone, height, email, hasFastPass);
+                        rideHistory.add(visitor);
+                        System.out.println("Visitor " + name + " imported successfully.");
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error parsing age on line " + lineNumber + ": " + e.getMessage());
+                    } catch (Exception e) {
+                        System.out.println("Error processing line " + lineNumber + ": " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Skipping invalid line " + lineNumber + ": " + line);
+                }
+                lineNumber++;
+            }
+            System.out.println("Visitor history imported from " + filename);
+        } catch (IOException e) {
+            System.out.println("Error reading the file: " + e.getMessage());
+        }
+    }
+
+    public void printFileContent(String filename) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            System.out.println("Contents of the file " + filename + ":");
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading the file: " + e.getMessage());
+        }
     }
 
     public String getRideName() {
