@@ -25,8 +25,8 @@ abstract class Ride implements RideInterface {
     private int rideId;
     private Employee rideOperator;
     private String suitablePopulation;
-    private Queue<Visitor> queue;
-    private List<Visitor> rideHistory;
+    private final Queue<Visitor> queue;
+    private final List<Visitor> rideHistory;
     private int maxRider;
     private int numOfCycles;
 
@@ -85,7 +85,7 @@ abstract class Ride implements RideInterface {
 
     @Override
     public void runOneCycle() {
-        if (rideHistory == null) {
+        if (rideOperator == null) {
             System.out.println("Can not run the ride, because there is no ride operator.");
             return;
         }
