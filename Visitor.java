@@ -1,8 +1,10 @@
+// Visitor class extending Person, adding specific fields for a visitor
 public class Visitor extends Person {
     private String height;
     private String email;
     private boolean hasFastPass;
 
+    // Default constructor initializing fields to default values
     public Visitor() {
         super();
         this.height = "Unknown";
@@ -10,6 +12,7 @@ public class Visitor extends Person {
         this.hasFastPass = false;
     }
 
+    // Parameterized constructor to initialize fields with provided values
     public Visitor(String name, int age, String gender, String telephone, String height, String email, boolean hasFastPass) {
         super(name, age, gender, telephone);
         this.height = height;
@@ -17,6 +20,7 @@ public class Visitor extends Person {
         this.hasFastPass = hasFastPass;
     }
 
+    // Getter and setter methods for each field
     public String getHeight() {
         return height;
     }

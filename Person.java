@@ -1,9 +1,11 @@
+// Abstract class representing a Person with basic personal information
 public abstract class Person {
     private String name;
     private int age;
     private String gender;
     private String telephone;
 
+    // Default constructor initializing fields to default values
     public Person() {
         this.name = "Unknown";
         this.age = 0;
@@ -11,6 +13,7 @@ public abstract class Person {
         this.telephone = "Unknown";
     }
 
+    // Parameterized constructor to initialize fields with provided values
     public Person(String name, int age, String gender, String telephone) {
         this.name = name;
         this.age = age;
@@ -18,6 +21,7 @@ public abstract class Person {
         this.telephone = telephone;
     }
 
+    // Getter and setter methods for each field
     public String getName() {
         return name;
     }
